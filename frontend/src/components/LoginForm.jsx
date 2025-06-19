@@ -37,7 +37,7 @@ const LoginForm = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      const res = await axios.post(`${API_BASE_URL}/api/login`, formData);
+      const res = await axios.post(`${API_BASE_URL}/login`, formData);
       localStorage.setItem("token", res.data.token);
       localStorage.setItem("isNewUser", "true");
       toast.success("Login successful!");
@@ -51,7 +51,7 @@ const LoginForm = () => {
   };
 
   const handleGoogle = () => {
-    window.location.href = `${API_BASE_URL}/api/google`;
+    window.location.href = `${API_BASE_URL}/google`;
   };
   return (
     <form
