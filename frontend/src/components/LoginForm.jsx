@@ -31,25 +31,27 @@ const LoginForm = () => {
       [e.target.name]: e.target.value
     }));
   }
+  const API_BASE_URL = import.meta.env.VITE_API_URL;
 
   const handleSubmit = async (e) => {
-    setLoading(true);
     e.preventDefault();
+    setLoading(true);
     try {
-      const res = await axios.post("http://localhost:3000/api/auth/login", formData);
+      const res = await axios.post(`${API_BASE_URL}/api/login`, formData);
       localStorage.setItem("token", res.data.token);
       localStorage.setItem("isNewUser", "true");
       toast.success("Login successful!");
-      window.location.href ="/dashboard";
+      window.location.href = "/dashboard";
     } catch (err) {
       console.error("Login failed:", err.response?.data?.message || err.message);
       toast.error("Login failed. Please check your credentials and try again.");
     } finally {
       setLoading(false);
     }
-  }
+  };
+
   const handleGoogle = () => {
-    window.location.href = "http://localhost:3000/api/auth/google";
+    window.location.href = `${API_BASE_URL}/api/google`;
   };
   return (
     <form

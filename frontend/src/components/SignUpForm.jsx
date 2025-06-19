@@ -1,6 +1,5 @@
-import { useState , useEffect} from "react";
-import { useNavigate } from "react-router-dom";
-import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 import toast from "react-hot-toast";
 
@@ -16,13 +15,14 @@ const SignUpForm = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
+  const API_BASE_URL = import.meta.env.VITE_API_URL;
+
   useEffect(() => {
-      const token = localStorage.getItem("token");
-      if (token) {
-        window.location.href ="/dashboard";
-      }
+    const token = localStorage.getItem("token");
+    if (token) {
+      window.location.href = "/dashboard";
     }
-    , []);
+  }, []);
 
   const handleChange = (e) => {
     setFormData((prev) => ({
@@ -34,28 +34,31 @@ const SignUpForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
+
     if (!formData.name || !formData.emailId || !formData.phoneNumber || !formData.password) {
       toast.error("Please fill in all fields.");
       setLoading(false);
       return;
     }
+
     try {
-      const res = await axios.post("http://localhost:3000/api/auth/register", {user: {...formData,roles:formData.roles} });
+      const res = await axios.post(`${API_BASE_URL}/api/auth/register`, {
+        user: { ...formData, roles: formData.roles }
+      });
       localStorage.setItem("token", res.data.token);
       localStorage.setItem("isNewUser", "true");
       toast.success("Signup successful!");
-      window.location.href ="/dashboard";
+      window.location.href = "/dashboard";
     } catch (err) {
       console.error("Signup failed:", err.response?.data?.message || err.message);
       toast.error("Signup failed. Please check your details and try again.");
-    }
-    finally{
+    } finally {
       setLoading(false);
     }
   };
 
   const handleGoogle = () => {
-    window.location.href = "http://localhost:3000/api/auth/google";
+    window.location.href = `${API_BASE_URL}/api/auth/google`;
   };
 
   return (
@@ -64,7 +67,7 @@ const SignUpForm = () => {
       className="max-w-md w-full mx-auto p-6 sm:p-8 bg-white border rounded-xl shadow-xl space-y-5 sm:space-y-6 flex flex-col"
     >
       <h2 className="text-2xl sm:text-3xl font-semibold text-center text-[#6b5448]">Sign Up</h2>
-      
+
       <input
         type="text"
         name="name"
@@ -116,7 +119,7 @@ const SignUpForm = () => {
         type="submit"
         disabled={loading}
         className={`w-full text-white py-2 sm:py-2.5 rounded transition text-base sm:text-lg ${
-          loading ? 'bg-gray-400 cursor-not-allowed' : 'bg-[#6b5448] hover:bg-[#4d3e36]'
+          loading ? "bg-gray-400 cursor-not-allowed" : "bg-[#6b5448] hover:bg-[#4d3e36]"
         }`}
       >
         {loading ? "Processing..." : "Sign Up"}
