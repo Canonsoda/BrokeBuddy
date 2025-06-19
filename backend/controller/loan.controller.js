@@ -184,7 +184,7 @@ export const getLoansByStatus = async (req, res) => {
     const loans = await Loan.find(filter).populate('borrower lender', 'name emailId');
 
     if (!loans || loans.length === 0) {
-      return res.status(404).json({ message: 'No loans found with the specified status' });
+      return res.status(200).json([]); // Return empty array if none
     }
 
     res.status(200).json(loans);
@@ -202,7 +202,7 @@ export const getLoansByUserIdAndStatus = async (req, res) => {
             status: status
         }).populate('borrower lender', 'name emailId');
         if (!loans || loans.length === 0) {
-            return res.status(404).json({ message: 'No loans found for this user with the specified status' });
+          return res.status(200).json([]); // Return empty array if none
         }
         res.status(200).json(loans);
     } catch (error) {
@@ -217,7 +217,7 @@ export const getLoansByUserId = async (req, res) => {
             $or: [{ borrower: userId }, { lender: userId }]
         }).populate('borrower lender', 'name emailId');
         if (!loans || loans.length === 0) {
-            return res.status(404).json({ message: 'No loans found for this user' });
+          return res.status(200).json([]); // Return empty array if none
         }
         res.status(200).json(loans);
     } catch (error) {
@@ -230,7 +230,7 @@ export const getLoanByBorrower = async (req, res) => {
         const borrowerId = req.params.borrowerId;
         const loans = await Loan.find({ borrower: borrowerId }).populate('borrower lender', 'name emailId');
         if (!loans || loans.length === 0) {
-            return res.status(404).json({ message: 'No loans found for this borrower' });
+          return res.status(200).json([]);
         }
         res.status(200).json(loans);
     } catch (error) {
@@ -243,7 +243,7 @@ export const getLoanByLender = async (req, res) => {
         const lenderId = req.params.lenderId;
         const loans = await Loan.find   ({ lender: lenderId }).populate('borrower lender', 'name emailId');
         if (!loans || loans.length === 0) {
-            return res.status(404).json({ message: 'No loans found for this lender' });
+            return res.status(200).json([]);
         }   
         res.status(200).json(loans);
     } catch (error) {
