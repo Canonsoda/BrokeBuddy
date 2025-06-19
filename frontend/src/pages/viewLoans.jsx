@@ -25,9 +25,17 @@ const Loans = () => {
             "x-active-role": activeRole,
           },
         });
-        setLoans(res.data);
+
+        // ✅ Defensive check
+        if (Array.isArray(res.data)) {
+          setLoans(res.data);
+        } else {
+          console.warn("Unexpected loans format:", res.data);
+          setLoans([]); // fallback
+        }
       } catch (err) {
         console.error("Error fetching loans:", err);
+        setLoans([]); // fallback
       }
     };
 
@@ -55,7 +63,9 @@ const Loans = () => {
         <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-800">📋 My Loans</h1>
 
         {loans.length === 0 ? (
-          <p className="text-gray-500 text-base sm:text-lg mt-8 sm:mt-10"><Lottie animationData={Loaded} loop={false} className="w-48 h-48 sm:w-72 sm:h-72" /></p>
+          <div className="flex justify-center">
+            <Lottie animationData={Loaded} loop={false} className="w-48 h-48 sm:w-72 sm:h-72" />
+          </div>
         ) : (
           <div className="grid gap-4 sm:gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
             {loans.map((loan) => (
