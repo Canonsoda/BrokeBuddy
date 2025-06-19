@@ -13,6 +13,7 @@ ChartJS.register(ArcElement, Tooltip, Legend);
 
 const Dashboard = () => {
   const { user, activeRole } = useAuth();
+  const API_BASE_URL = import.meta.env.VITE_API_URL;
 
   const [stats, setStats] = useState({
     totalAmount: 0,
@@ -30,7 +31,7 @@ const [recentTransactions, setRecentTransactions] = useState([]);
       try {
         const token = localStorage.getItem("token");
 
-        const res = await axios.get("http://localhost:3000/api/loans/summary", {
+        const res = await axios.get(`${API_BASE_URL}/loans/summary`, {
           headers: {
             Authorization: `Bearer ${token}`,
             "x-active-role": activeRole === "both" ? "lender" : activeRole,
@@ -46,7 +47,7 @@ const [recentTransactions, setRecentTransactions] = useState([]);
     const fetchRecentTransactions = async () => {
   try {
     const token = localStorage.getItem("token");
-    const res = await axios.get("http://localhost:3000/api/transactions/recent-transactions", {
+    const res = await axios.get(`${API_BASE_URL}/transactions/recent-transactions`, {
       headers: {
         Authorization: `Bearer ${token}`,
         "x-active-role": activeRole,
