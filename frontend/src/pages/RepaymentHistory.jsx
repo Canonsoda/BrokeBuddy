@@ -40,9 +40,18 @@ const RepaymentHistory = () => {
             },
           }
         );
-        setHistory(res.data);
+
+        // ✅ Defensive check
+        if (Array.isArray(res.data)) {
+          setHistory(res.data);
+        } else {
+          console.warn("Unexpected repayment history format:", res.data);
+          setHistory([]);
+        }
+
       } catch (err) {
         console.error("Error fetching repayment history", err);
+        setHistory([]); // fallback to empty
       } finally {
         setLoading(false);
       }

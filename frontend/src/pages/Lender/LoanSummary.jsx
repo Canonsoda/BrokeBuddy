@@ -18,28 +18,38 @@ const LoanSummary = () => {
   const API_BASE_URL = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
-    const fetchLoansByStatus = async () => {
-      try {
-        const token = localStorage.getItem("token");
-        setLoans([]);
-        const res = await axios.get(
-          `${API_BASE_URL}/api/loans/status/${status}`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-              "x-active-role": activeRole,
-            },
-          }
-        );
-        setLoans(res.data);
-      } catch (err) {
-        console.error("No such Loans:", err);
-        toast.error("There are no Loans here");
-      }
-    };
+  const fetchLoansByStatus = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      setLoans([]);
 
-    fetchLoansByStatus();
-  }, [status, activeRole, refreshKey]);
+      const res = await axios.get(
+        `${API_BASE_URL}/api/loans/status/${status}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "x-active-role": activeRole,
+          },
+        }
+      );
+
+      // ✅ Defensive check
+      if (Array.isArray(res.data)) {
+        setLoans(res.data);
+      } else {
+        console.warn("Unexpected loans format:", res.data);
+        setLoans([]);
+        toast.error("Unexpected loan data format received.");
+      }
+    } catch (err) {
+      console.error("No such Loans:", err);
+      toast.error("There are no Loans here");
+      setLoans([]); // fallback
+    }
+  };
+
+  fetchLoansByStatus();
+}, [status, activeRole, refreshKey]);
 
   const handleStatusUpdate = async (loanId, newStatus) => {
     try {

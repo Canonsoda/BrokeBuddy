@@ -28,14 +28,20 @@ const Repay = () => {
           },
         });
 
-        setLoans(
-          res.data.map((loan) => ({
-            ...loan,
-            repayAmount: "",
-          }))
-        );
+        if (Array.isArray(res.data)) {
+          setLoans(
+            res.data.map((loan) => ({
+              ...loan,
+              repayAmount: "",
+            }))
+          );
+        } else {
+          console.warn("Unexpected loans format:", res.data);
+          setLoans([]);
+        }
       } catch (err) {
         console.error("Error fetching borrower loans:", err);
+        setLoans([]);
       } finally {
         setLoading(false);
       }
@@ -81,7 +87,7 @@ const Repay = () => {
   if (!user || !activeRole || loading) {
     return (
       <DashboardLayout>
-        <Spinning/>
+        <Spinning />
       </DashboardLayout>
     );
   }

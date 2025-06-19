@@ -13,7 +13,7 @@ import {
   BarElement,
   Title,
   Tooltip,
-  Legend
+  Legend,
 } from "chart.js";
 import Spinning from "../components/Spinner";
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
@@ -40,15 +40,20 @@ const LenderRepayments = () => {
           },
         });
 
-        const givenLoans = res.data.filter(
-          (loan) =>
-            loan?.lender?._id?.toString() === user.id?.toString() ||
-            loan?.lender?.toString() === user.id?.toString()
-        );
-
-        setLoans(givenLoans);
+        if (Array.isArray(res.data)) {
+          const givenLoans = res.data.filter(
+            (loan) =>
+              loan?.lender?._id?.toString() === user.id?.toString() ||
+              loan?.lender?.toString() === user.id?.toString()
+          );
+          setLoans(givenLoans);
+        } else {
+          console.warn("Unexpected loans format:", res.data);
+          setLoans([]); // fallback to avoid crash
+        }
       } catch (err) {
         console.error("Error fetching loans for lender", err);
+        setLoans([]); // fallback
       } finally {
         setLoading(false);
       }

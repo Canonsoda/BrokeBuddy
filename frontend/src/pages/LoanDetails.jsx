@@ -40,10 +40,17 @@ const LoanDetails = () => {
           },
         });
 
-        setLoan(res.data);
-        setEditedSchedule(res.data.repaymentSchedule);
+        // ✅ Defensive check
+        if (res.data && typeof res.data === "object" && res.data._id) {
+          setLoan(res.data);
+          setEditedSchedule(res.data.repaymentSchedule || []);
+        } else {
+          console.warn("Unexpected loan format:", res.data);
+          setLoan(null);
+        }
       } catch (err) {
         console.error("Error fetching loan details:", err);
+        setLoan(null);
       } finally {
         setLoading(false);
       }
@@ -62,10 +69,12 @@ const LoanDetails = () => {
   if (!loan) {
     return (
       <DashboardLayout>
-      <div className="flex flex-col items-center justify-center py-10 px-4 sm:px-0">
-        <Lottie animationData={noFound} className="w-48 h-48 sm:w-64 sm:h-64" loop />
-        <p className="text-gray-500 text-base sm:text-lg mt-4 text-center">Loan not found or access denied.</p>
-      </div>
+        <div className="flex flex-col items-center justify-center py-10 px-4 sm:px-0">
+          <Lottie animationData={noFound} className="w-48 h-48 sm:w-64 sm:h-64" loop />
+          <p className="text-gray-500 text-base sm:text-lg mt-4 text-center">
+            Loan not found or access denied.
+          </p>
+        </div>
       </DashboardLayout>
     );
   }
@@ -91,10 +100,11 @@ const LoanDetails = () => {
   return (
     <DashboardLayout>
       <div className="space-y-8 px-2 sm:px-4 md:px-6 lg:px-8 py-4 sm:py-6 min-h-[90vh] bg-gradient-to-br from-[#fdf6e3] via-[#fdfaf6] to-[#ffeede] animate-fadeIn">
+        <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-800 text-center sm:text-left">
+          📄 Loan Details
+        </h1>
 
-        <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-800 text-center sm:text-left">📄 Loan Details</h1>
-
-        {/* Loan Info Card */}
+        {/* Loan Info */}
         <div className="bg-white/80 backdrop-blur-lg p-4 sm:p-6 rounded-xl shadow-md border-l-4 border-[#6b5448] space-y-4">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 sm:gap-4">
             <div>
@@ -128,7 +138,7 @@ const LoanDetails = () => {
           </div>
         </div>
 
-        {/* Charts Section */}
+        {/* Charts */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
           <div className="bg-white/80 backdrop-blur-lg p-4 sm:p-6 rounded-xl shadow">
             <h2 className="text-base sm:text-lg font-semibold mb-2">Repayment Progress</h2>
@@ -176,7 +186,7 @@ const LoanDetails = () => {
           </div>
         </div>
 
-        {/* Repayment Schedule Section */}
+        {/* Repayment Schedule */}
         <div className="space-y-4">
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
             <h2 className="text-xl sm:text-2xl font-semibold text-gray-800">🗓 Repayment Schedule</h2>
@@ -255,16 +265,22 @@ const LoanDetails = () => {
                     );
                     toast.success("Schedule updated successfully");
 
-                    // Re-fetch
+                    // Re-fetch with defensive check
                     const refreshed = await axios.get(`${API_BASE_URL}/api/loans/${id}`, {
                       headers: {
                         Authorization: `Bearer ${token}`,
                         "x-active-role": activeRole,
                       },
                     });
-                    setLoan(refreshed.data);
-                    setEditedSchedule(refreshed.data.repaymentSchedule);
-                    setIsEditingSchedule(false);
+
+                    if (refreshed.data && typeof refreshed.data === "object" && refreshed.data._id) {
+                      setLoan(refreshed.data);
+                      setEditedSchedule(refreshed.data.repaymentSchedule || []);
+                      setIsEditingSchedule(false);
+                    } else {
+                      toast.error("Unexpected data after update");
+                      console.warn("Unexpected refresh data:", refreshed.data);
+                    }
                   } catch (error) {
                     toast.error("Failed to update schedule");
                     console.error(error);
