@@ -19,12 +19,17 @@ dotenv.config();
 const app = express();
 const __dirname = path.resolve();
 
-// Middlewares
-if (process.env.NODE_ENV === 'development') {
-  app.use(cors({
-    origin: 'http://localhost:5173',
-  }));
-}
+
+const corsOptions = {
+  origin:
+    process.env.NODE_ENV === 'production'
+      ? process.env.CLIENT_URL
+      : 'http://localhost:5173',
+  credentials: true,
+};
+
+
+app.use(cors(corsOptions));
 app.use(express.json());
 app.use(passport.initialize());
 
@@ -44,7 +49,7 @@ if(process.env.NODE_ENV ==="production"){
   });
 }
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 3000;
 connectDB().then(() => {
     app.listen(PORT, '0.0.0.0', () => {
     console.log(`Server running on port ${PORT}`);
