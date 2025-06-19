@@ -42,7 +42,7 @@ const SignUpForm = () => {
     }
 
     try {
-      const res = await axios.post(`${API_BASE_URL}/api/auth/register`, {
+      const res = await axios.post(`${API_BASE_URL}/auth/register`, {
         user: { ...formData, roles: formData.roles }
       });
       localStorage.setItem("token", res.data.token);
@@ -58,7 +58,7 @@ const SignUpForm = () => {
   };
 
   const handleGoogle = () => {
-    window.location.href = `${API_BASE_URL}/api/auth/google`;
+    window.location.href = `${API_BASE_URL}/auth/google`;
   };
 
   return (
