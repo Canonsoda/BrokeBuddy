@@ -2,7 +2,6 @@ import { Link } from "react-router-dom";
 import { useState,useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { set } from "mongoose";
 
 import toast from "react-hot-toast";
 
@@ -36,7 +35,7 @@ const LoginForm = () => {
     setLoading(true);
     e.preventDefault();
     try {
-      const res = await axios.post("http://localhost:3000/api/auth/login", formData);
+      const res = await axios.post(`${import.meta.env.VITE_API_URL}/auth/login`, formData);
       localStorage.setItem("token", res.data.token);
       localStorage.setItem("isNewUser", "true");
       toast.success("Login successful!");
@@ -49,7 +48,7 @@ const LoginForm = () => {
     }
   }
   const handleGoogle = () => {
-    window.location.href = "http://localhost:3000/api/auth/google";
+    window.location.href = `${import.meta.env.VITE_API_URL}/auth/google`;
   };
   return (
     <form
