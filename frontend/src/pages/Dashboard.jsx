@@ -30,7 +30,7 @@ const [recentTransactions, setRecentTransactions] = useState([]);
       try {
         const token = localStorage.getItem("token");
 
-        const res = await axios.get(`${import.meta.env.VITE_API_URL}/loans/summary`, {
+        const res = await axios.get("http://localhost:3000/api/loans/summary", {
           headers: {
             Authorization: `Bearer ${token}`,
             "x-active-role": activeRole === "both" ? "lender" : activeRole,
@@ -46,7 +46,7 @@ const [recentTransactions, setRecentTransactions] = useState([]);
     const fetchRecentTransactions = async () => {
   try {
     const token = localStorage.getItem("token");
-    const res = await axios.get(`${import.meta.env.VITE_API_URL}/transactions/recent-transactions`, {
+    const res = await axios.get("http://localhost:3000/api/transactions/recent-transactions", {
       headers: {
         Authorization: `Bearer ${token}`,
         "x-active-role": activeRole,

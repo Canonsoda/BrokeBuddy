@@ -40,7 +40,7 @@ const SignUpForm = () => {
       return;
     }
     try {
-      const res = await axios.post(`${import.meta.env.VITE_API_URL}/auth/register`, {user: {...formData,roles:formData.roles} });
+      const res = await axios.post("http://localhost:3000/api/auth/register", {user: {...formData,roles:formData.roles} });
       localStorage.setItem("token", res.data.token);
       localStorage.setItem("isNewUser", "true");
       toast.success("Signup successful!");
@@ -55,7 +55,7 @@ const SignUpForm = () => {
   };
 
   const handleGoogle = () => {
-    window.location.href = `${import.meta.env.VITE_API_URL}/auth/google`;
+    window.location.href = "http://localhost:3000/api/auth/google";
   };
 
   return (
