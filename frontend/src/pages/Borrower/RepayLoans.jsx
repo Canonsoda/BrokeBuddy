@@ -21,7 +21,7 @@ const Repay = () => {
       try {
         const token = localStorage.getItem("token");
 
-        const res = await axios.get(`${API_BASE_URL}/api/loans`, {
+        const res = await axios.get(`${API_BASE_URL}/loans`, {
           headers: {
             Authorization: `Bearer ${token}`,
             "x-active-role": activeRole,
@@ -61,7 +61,7 @@ const Repay = () => {
       const token = localStorage.getItem("token");
 
       const res = await axios.post(
-        `${API_BASE_URL}/api/repayments/${loanId}`,
+        `${API_BASE_URL}/repayments/${loanId}`,
         { amount: amt },
         {
           headers: {

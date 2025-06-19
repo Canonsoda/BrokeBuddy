@@ -24,7 +24,7 @@ const LoanSummary = () => {
       setLoans([]);
 
       const res = await axios.get(
-        `${API_BASE_URL}/api/loans/status/${status}`,
+        `${API_BASE_URL}/loans/status/${status}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -56,7 +56,7 @@ const LoanSummary = () => {
       const token = localStorage.getItem("token");
 
       await axios.put(
-        `${API_BASE_URL}/api/loans/${loanId}/status`,
+        `${API_BASE_URL}/loans/${loanId}/status`,
         { status: newStatus },
         {
           headers: {
@@ -95,7 +95,7 @@ const LoanSummary = () => {
   try {
     const token = localStorage.getItem("token");
 
-    await axios.delete(`${API_BASE_URL}/api/loans/${loanId}`, {
+    await axios.delete(`${API_BASE_URL}/loans/${loanId}`, {
       headers: {
         Authorization: `Bearer ${token}`,
         "x-active-role": activeRole,

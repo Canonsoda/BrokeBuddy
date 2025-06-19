@@ -36,7 +36,7 @@ const CreateLoan = () => {
     const token = localStorage.getItem("token");
 
     try {
-      await axios.post(`${API_BASE_URL}/api/loans/create`, formData, {
+      await axios.post(`${API_BASE_URL}/loans/create`, formData, {
         headers: {
           Authorization: `Bearer ${token}`,
           "x-active-role": activeRole,

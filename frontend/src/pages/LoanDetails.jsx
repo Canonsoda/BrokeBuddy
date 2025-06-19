@@ -33,7 +33,7 @@ const LoanDetails = () => {
       try {
         const token = localStorage.getItem("token");
 
-        const res = await axios.get(`${API_BASE_URL}/api/loans/${id}`, {
+        const res = await axios.get(`${API_BASE_URL}/loans/${id}`, {
           headers: {
             Authorization: `Bearer ${token}`,
             "x-active-role": activeRole,
@@ -254,7 +254,7 @@ const LoanDetails = () => {
                   try {
                     const token = localStorage.getItem("token");
                     await axios.put(
-                      `${API_BASE_URL}/api/loans/${loan._id}/edit-schedule`,
+                      `${API_BASE_URL}/loans/${loan._id}/edit-schedule`,
                       { updatedSchedule: editedSchedule },
                       {
                         headers: {
@@ -266,7 +266,7 @@ const LoanDetails = () => {
                     toast.success("Schedule updated successfully");
 
                     // Re-fetch with defensive check
-                    const refreshed = await axios.get(`${API_BASE_URL}/api/loans/${id}`, {
+                    const refreshed = await axios.get(`${API_BASE_URL}/loans/${id}`, {
                       headers: {
                         Authorization: `Bearer ${token}`,
                         "x-active-role": activeRole,

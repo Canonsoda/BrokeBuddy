@@ -7,7 +7,7 @@ const Profile = () => {
 
   const profilePic = user?.profilePic?.startsWith("http")
     ? user.profilePic
-    : `https://ui-avatars.com/api/?name=${encodeURIComponent(user?.name || "User")}&background=6b5448&color=fff&size=128`;
+    : `https://ui-avatars.com/?name=${encodeURIComponent(user?.name || "User")}&background=6b5448&color=fff&size=128`;
     
 
   return (

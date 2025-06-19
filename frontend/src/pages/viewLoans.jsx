@@ -19,7 +19,7 @@ const Loans = () => {
       try {
         const token = localStorage.getItem("token");
 
-        const res = await axios.get(`${API_BASE_URL}/api/loans`, {
+        const res = await axios.get(`${API_BASE_URL}/loans`, {
           headers: {
             Authorization: `Bearer ${token}`,
             "x-active-role": activeRole,

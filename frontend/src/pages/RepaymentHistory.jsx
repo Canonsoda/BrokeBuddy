@@ -32,7 +32,7 @@ const RepaymentHistory = () => {
         const token = localStorage.getItem("token");
 
         const res = await axios.get(
-          `${API_BASE_URL}/api/repayments/${loanId}/history`,
+          `${API_BASE_URL}/repayments/${loanId}/history`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
