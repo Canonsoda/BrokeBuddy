@@ -12,6 +12,7 @@ const Repay = () => {
   const { user, activeRole } = useAuth();
   const [loans, setLoans] = useState([]);
   const [loading, setLoading] = useState(true);
+  const API_BASE_URL = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
     if (!user || !activeRole) return;
@@ -20,7 +21,7 @@ const Repay = () => {
       try {
         const token = localStorage.getItem("token");
 
-        const res = await axios.get("http://localhost:3000/api/loans", {
+        const res = await axios.get(`${API_BASE_URL}/api/loans`, {
           headers: {
             Authorization: `Bearer ${token}`,
             "x-active-role": activeRole,
@@ -54,7 +55,7 @@ const Repay = () => {
       const token = localStorage.getItem("token");
 
       const res = await axios.post(
-        `http://localhost:3000/api/repayments/${loanId}`,
+        `${API_BASE_URL}/api/repayments/${loanId}`,
         { amount: amt },
         {
           headers: {

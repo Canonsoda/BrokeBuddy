@@ -26,12 +26,14 @@ const LoanDetails = () => {
   const [isEditingSchedule, setIsEditingSchedule] = useState(false);
   const [editedSchedule, setEditedSchedule] = useState([]);
 
+  const API_BASE_URL = import.meta.env.VITE_API_URL;
+
   useEffect(() => {
     const fetchLoanDetails = async () => {
       try {
         const token = localStorage.getItem("token");
 
-        const res = await axios.get(`http://localhost:3000/api/loans/${id}`, {
+        const res = await axios.get(`${API_BASE_URL}/api/loans/${id}`, {
           headers: {
             Authorization: `Bearer ${token}`,
             "x-active-role": activeRole,
@@ -242,7 +244,7 @@ const LoanDetails = () => {
                   try {
                     const token = localStorage.getItem("token");
                     await axios.put(
-                      `http://localhost:3000/api/loans/${loan._id}/edit-schedule`,
+                      `${API_BASE_URL}/api/loans/${loan._id}/edit-schedule`,
                       { updatedSchedule: editedSchedule },
                       {
                         headers: {
@@ -254,7 +256,7 @@ const LoanDetails = () => {
                     toast.success("Schedule updated successfully");
 
                     // Re-fetch
-                    const refreshed = await axios.get(`http://localhost:3000/api/loans/${id}`, {
+                    const refreshed = await axios.get(`${API_BASE_URL}/api/loans/${id}`, {
                       headers: {
                         Authorization: `Bearer ${token}`,
                         "x-active-role": activeRole,

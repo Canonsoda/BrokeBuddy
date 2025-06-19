@@ -22,6 +22,8 @@ const CreateLoan = () => {
   const { activeRole } = useAuth();
   const navigate = useNavigate();
 
+  const API_BASE_URL = import.meta.env.VITE_API_URL;
+
   const handleChange = (e) => {
     setFormData((prev) => ({
       ...prev,
@@ -34,7 +36,7 @@ const CreateLoan = () => {
     const token = localStorage.getItem("token");
 
     try {
-      await axios.post("http://localhost:3000/api/loans/create", formData, {
+      await axios.post(`${API_BASE_URL}/api/loans/create`, formData, {
         headers: {
           Authorization: `Bearer ${token}`,
           "x-active-role": activeRole,

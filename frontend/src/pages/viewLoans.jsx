@@ -10,6 +10,8 @@ const Loans = () => {
   const [loans, setLoans] = useState([]);
   const { user, activeRole } = useAuth();
 
+  const API_BASE_URL = import.meta.env.VITE_API_URL;
+
   useEffect(() => {
     const fetchLoans = async () => {
       if (!user || !activeRole) return;
@@ -17,7 +19,7 @@ const Loans = () => {
       try {
         const token = localStorage.getItem("token");
 
-        const res = await axios.get("http://localhost:3000/api/loans", {
+        const res = await axios.get(`${API_BASE_URL}/api/loans`, {
           headers: {
             Authorization: `Bearer ${token}`,
             "x-active-role": activeRole,

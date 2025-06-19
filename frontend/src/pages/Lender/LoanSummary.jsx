@@ -15,13 +15,15 @@ const LoanSummary = () => {
 
   const statusOptions = ["pending", "approved", "rejected", "completed"];
 
+  const API_BASE_URL = import.meta.env.VITE_API_URL;
+
   useEffect(() => {
     const fetchLoansByStatus = async () => {
       try {
         const token = localStorage.getItem("token");
         setLoans([]);
         const res = await axios.get(
-          `http://localhost:3000/api/loans/status/${status}`,
+          `${API_BASE_URL}/api/loans/status/${status}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -44,7 +46,7 @@ const LoanSummary = () => {
       const token = localStorage.getItem("token");
 
       await axios.put(
-        `http://localhost:3000/api/loans/${loanId}/status`,
+        `${API_BASE_URL}/api/loans/${loanId}/status`,
         { status: newStatus },
         {
           headers: {
@@ -83,7 +85,7 @@ const LoanSummary = () => {
   try {
     const token = localStorage.getItem("token");
 
-    await axios.delete(`http://localhost:3000/api/loans/${loanId}`, {
+    await axios.delete(`${API_BASE_URL}/api/loans/${loanId}`, {
       headers: {
         Authorization: `Bearer ${token}`,
         "x-active-role": activeRole,

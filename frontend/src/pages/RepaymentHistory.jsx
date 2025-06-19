@@ -24,13 +24,15 @@ const RepaymentHistory = () => {
   const [history, setHistory] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  const API_BASE_URL = import.meta.env.VITE_API_URL;
+
   useEffect(() => {
     const fetchHistory = async () => {
       try {
         const token = localStorage.getItem("token");
 
         const res = await axios.get(
-          `http://localhost:3000/api/repayments/${loanId}/history`,
+          `${API_BASE_URL}/api/repayments/${loanId}/history`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
