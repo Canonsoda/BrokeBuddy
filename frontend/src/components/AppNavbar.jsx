@@ -24,13 +24,26 @@ const AppNavbar = ({ toggleSidebar }) => {
       {/* Right: Role Switch + Dropdown */}
       <div className="flex items-center gap-6 relative">
         {user?.role === "both" && (
-          <button
-            onClick={switchRole}
-            className="px-3 py-2 rounded-full text-white bg-[#6b5448] hover:bg-[#4d3e36] transition"
-          >
-            Switch to {activeRole === "lender" ? "Borrower" : "Lender"}
-          </button>
+          <>
+            {/* Full button for medium and up */}
+            <button
+              onClick={switchRole}
+              className="hidden md:inline px-3 py-2 rounded-full text-white bg-[#6b5448] hover:bg-[#4d3e36] transition"
+            >
+              Switch to {activeRole === "lender" ? "Borrower" : "Lender"}
+            </button>
+
+            {/* Short form for small screens */}
+            <button
+              onClick={switchRole}
+              title={`Switch to ${activeRole === "lender" ? "Borrower" : "Lender"}`}
+              className="inline md:hidden w-10 h-10 text-sm font-bold text-white bg-[#6b5448] hover:bg-[#4d3e36] rounded-md transition"
+            >
+              {activeRole === "lender" ? "BW" : "LN"}
+            </button>
+          </>
         )}
+
 
         <div className="relative">
           <button
