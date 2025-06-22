@@ -5,7 +5,7 @@ export const sendRegistrationEmail = async (email, name) => {
     from: `"BrokeBuddy" <${process.env.EMAIL_USER}>`,
     to: email,
     subject: 'Welcome to BrokeBuddy!',
-    html: `<h3>Hello ${name},</h3><p>Welcome aboard! You've successfully registered on SmartLend.</p>`,
+    html: `<h3>Hello ${name},</h3><p>Welcome aboard! You've successfully registered on BrokeBuddy.</p>`,
   };
 
   await mailTransporter.sendMail(mailOptions);
