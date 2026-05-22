@@ -6,7 +6,7 @@
 
 Track money you've lent or borrowed — with automated email reminders, Google OAuth, and a role-based dashboard.
 
-[![Live Demo](https://img.shields.io/badge/Live%20Demo-Coming%20Soon-6366f1?style=for-the-badge)](https://github.com/Canonsoda/BrokeBuddy)
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-brokebuddy.onrender.com-6366f1?style=for-the-badge)](https://brokebuddy.onrender.com/)
 [![GitHub stars](https://img.shields.io/github/stars/Canonsoda/BrokeBuddy?style=for-the-badge)](https://github.com/Canonsoda/BrokeBuddy/stargazers)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)](LICENSE)
 
